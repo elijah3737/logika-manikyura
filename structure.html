@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Логика маникюра — структура</title>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--g:#0c4b38;--cr:#f5f0e8;--ink:#1d2622;--mut:#6b746f;--line:#ddd5c8;--card:#fff;--mvp:#0c4b38;--v2:#b7791f;--later:#8a8f8c;--bg:#f5f0e8}
+*{box-sizing:border-box}body{margin:0;font-family:Onest,system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+header{padding:20px 24px 8px}h1{margin:0;font-size:22px;color:var(--g)}header p{margin:4px 0 0;color:var(--mut);font-size:14px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;padding:10px 24px;align-items:center}
+.bar button{font:inherit;font-size:13px;border:1px solid var(--g);background:#fff;color:var(--g);border-radius:20px;padding:6px 12px;cursor:pointer}
+.bar button.on{background:var(--g);color:#fff}
+.legend{font-size:12px;color:var(--mut);display:flex;gap:12px;margin-left:auto}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px}
+.wrap{display:grid;grid-template-columns:1fr 380px;gap:16px;padding:8px 24px 24px}
+.map{display:grid;grid-template-columns:repeat(5,minmax(150px,1fr));gap:12px;align-items:start}
+.zone{background:#fffaf2;border:1px solid var(--line);border-radius:14px;padding:10px}
+.zone h2{font-size:13px;text-transform:uppercase;letter-spacing:.04em;margin:2px 4px 8px;color:var(--g)}
+.zone small{display:block;margin:-6px 4px 8px;color:var(--mut);font-size:11px}
+.node{display:block;width:100%;text-align:left;font:inherit;font-size:13.5px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--mvp);border-radius:9px;padding:8px 10px;margin-bottom:7px;cursor:pointer;transition:.15s}
+.node:hover{border-color:var(--g)}.node.v2{border-left-color:var(--v2)}.node.later{border-left-color:var(--later);color:var(--mut)}
+.node.sel{background:var(--g);color:#fff;border-color:var(--g)}
+.node.dim{opacity:.25}.node .n{font-size:11px;font-weight:700;background:#f1c24b;color:#000;border-radius:10px;padding:0 6px;margin-right:5px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto}
+.panel h3{margin:0 0 4px;font-size:19px}.tag{font-size:11px;border-radius:10px;padding:2px 8px;color:#fff;display:inline-block}
+.panel ul{padding-left:18px;margin:10px 0}.panel li{margin:5px 0;font-size:14px;line-height:1.4}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.links button{font:inherit;font-size:12.5px;background:var(--cr);border:1px solid var(--line);border-radius:8px;padding:5px 9px;cursor:pointer}
+.links button:hover{border-color:var(--g)}.note{background:#fff6e0;border-radius:8px;padding:8px 10px;font-size:13px;margin-top:10px}
+.lab{font-size:12px;color:var(--mut);text-transform:uppercase;margin-top:12px}
+.steps{display:flex;gap:6px;align-items:center;margin-top:10px}.steps button{font:inherit;font-size:13px;border:1px solid var(--g);background:#fff;border-radius:8px;padding:5px 10px;cursor:pointer}
+@media(max-width:1100px){.wrap{grid-template-columns:1fr}.map{grid-template-columns:repeat(2,1fr)}.panel{position:static;max-height:none}}
+@media(max-width:560px){.map{grid-template-columns:1fr}header,.bar,.wrap{padding-left:16px;padding-right:16px}}
+</style></head><body>
+<header><h1>«Логика маникюра» — структура платформы</h1>
+<p>Кликай на любой блок: справа — что на экране и куда из него ведёт. Кнопки ниже прогоняют путь пользователя по шагам.</p></header>
+<div class="bar" id="bar">
+<button data-j="">Вся карта</button>
+<button data-j="novice">Путь новичка</button>
+<button data-j="club">Путь участника клуба</button>
+<button data-j="salon">Путь салона</button>
+<button data-j="removed">Что убрали / заменили</button>
+<span class="legend"><span><i class="dot" style="background:var(--mvp)"></i>Запуск (переезд с GetCourse)</span><span><i class="dot" style="background:var(--v2)"></i>Вторая очередь</span><span><i class="dot" style="background:var(--later)"></i>Позже</span></span>
+</div>
+<div class="wrap"><div class="map" id="map"></div><aside class="panel" id="panel"></aside></div>
+<script>
+const Z={pub:["Сайт","открыт всем, продвигается в поиске"],acc:["Вход и оплата",""],cab:["Кабинет ученика","после регистрации"],sal:["Салоны","корпоративный доступ"],adm:["Админка","Катя и команда"]};
+const N=[
+["home","pub","mvp","Главная",["Меню: Статьи · База знаний · Обучение · Эфиры · Для салонов · Войти","Главный лид-магнит: бесплатный урок за регистрацию","Витрина популярных атомов","Кто такая Катя, отзывы, работы учеников"],["articles","kb","catalog","events","salons","register"]],
+["articles","pub","mvp","Статьи",["Тексты по поисковым запросам мастеров","Контент-план на месяц, выходят сами по графику","Под каждой статьёй — кнопки атомов по теме"],["product","register"]],
+["kb","pub","mvp","База знаний",["Полезные разборы из блога: текст + скрины + видео внутри","Часть материалов открыта, часть — с замочком «бесплатно после регистрации»","Сюда же переезжают лид-магниты из блога"],["locked","product"]],
+["locked","pub","mvp","Закрытый материал",["Превью, первые абзацы","Замочек: «Доступно бесплатно после регистрации»"],["register"]],
+["catalog","pub","mvp","Обучение (каталог)",["Фильтры: Атомы · Уроки на моделях · Курсы · Подписка · Клуб","Поиск по теме: кутикула, фрезы, снятие…","Отметка «входит в подписку»"],["product"]],
+["product","pub","mvp","Карточка продукта",["Трейлер / видео-приглашение (можно ИИ-аватаром)","Что внутри, программа: модули → уроки","Цена, кнопка «Купить», «Или всё это в подписке»","Видна всем, не только купившим"],["checkout","register"]],
+["events","pub","v2","Эфиры и вебинары",["Регистрация на бесплатный эфир → контакт в базу","Трансляция встроенным плеером (Kinescope/YouTube), свой стриминг не строим","Запись эфира уходит в подписку"],["register"]],
+["salons","pub","v2","Для салонов",["Корпоративная подписка на N мастеров","Руководитель видит прогресс каждого","Заявка / покупка"],["checkout"]],
+["register","acc","mvp","Регистрация / вход",["Почта или телефон, вход по коду","Галочка согласия на обработку данных — обязательная, без бонусов","Подарок новичку — 1 атом на выбор","Участники клуба входят по той же почте, доступы уже перенесены"],["gift","cabinet"]],
+["gift","acc","mvp","Выбор подарка",["Выбрать 1 атом бесплатно","Сразу — кнопка «Смотреть»"],["player","cabinet"]],
+["checkout","acc","mvp","Оплата",["ЮKassa / CloudPayments","Сохранение карты с согласием на автосписание","Промокод, списание баллов","Чек, письмо с доступом"],["cabinet"]],
+["cabinet","cab","mvp","Главная кабинета",["«Продолжить с того места»","Подписка: сколько осталось + «Продлить»","Мои курсы с прогрессом 18 из 65","Атомы по теме того, что смотрел"],["mycourses","player","subscription","notes","files","points","referral","profile"]],
+["mycourses","cab","mvp","Мои курсы",["Купленное — с полосой прогресса и цифрами","Ниже витрина того, что ещё можно купить"],["player","product"]],
+["player","cab","mvp","Урок (плеер)",["Видео с водяным знаком — почта ученика (вместо бана за скрины)","Слева панель: модули → уроки, отмечено просмотрено / начато / нет","Под видео: конспект, таймкоды, файлы","«Не понял этот момент → атом: …»","Заметка, звёздочка, метка","Оценка урока, загрузить свою работу → баллы"],["notes","files","product","points"]],
+["notes","cab","v2","Мои заметки и метки",["Все заметки по урокам списком","Клик — переход в урок"],["player"]],
+["files","cab","mvp","Полезные файлы",["Схемы, шпаргалки, чек-листы, тетради","Собраны из просмотренных уроков","Клик — переход в урок-источник"],["player"]],
+["subscription","cab","mvp","Подписка и платежи",["Статус, дата продления","Отмена одной кнопкой","История оплат, чеки"],["checkout"]],
+["points","cab","v2","Баллы",["Баланс и история с комментариями","За что: анкета, оценка урока, отзыв, работа после урока, ролик про платформу","Тратятся на атомы и подписку, деньгами не выводятся"],["catalog"]],
+["referral","cab","v2","Рефералка",["Моя ссылка","Кто пришёл, кто сколько купил, сколько баллов принёс","Сортировка: по дате, алфавиту, сумме","Бонус — когда приглашённый купил (не за регистрацию)"],["points"]],
+["profile","cab","v2","Анкета",["Имя, соцсети","Работы до обучения, мои проблемы и вопросы","Заполнил — баллы (идут в кейсы)"],["points"]],
+["community","cab","later","Сообщество",["Ссылка в Телеграм-чат подписчиков","Чат на платформе — только если попросят","VIP-чат с Катей — отдельный платный продукт"],[]],
+["ai","cab","later","ИИ-помощник",["Подсказывает урок или атом по вопросу","Нужен, когда уроков станут сотни; до этого — поиск и теги"],["catalog"]],
+["salonDash","sal","v2","Кабинет руководителя",["Места: 7 из 10, добавить / заменить мастера","Прогресс каждого, когда заходил","Отработки: сдал / не сдал"],["salonMaster"]],
+["salonMaster","sal","v2","Кабинет мастера салона",["Обычный кабинет ученика","Доступ оплачен салоном"],["cabinet"]],
+["aContent","adm","mvp","Контент",["Курсы → модули → уроки, атомы","Видео, конспект, таймкоды, файлы, трейлер","Цена и «входит в подписку»"],[]],
+["aUsers","adm","mvp","Ученики",["Карточка: доступы, покупки, что смотрит","Выдать / забрать доступ","Бан / разбан","Импорт клуба с GetCourse"],[]],
+["aSales","adm","mvp","Продажи",["Оплаты, подписки, продления, отмены","Промокоды"],[]],
+["aMail","adm","mvp","Рассылки",["Письма по базе","Цепочки: после регистрации, после эфира, «подписка кончается»"],[]],
+["aArticles","adm","v2","Статьи",["Контент-план: согласовала 30 статей — выходят сами"],[]],
+["aPoints","adm","v2","Баллы",["Начислить / снять с комментарием","Ученику приходит письмо с причиной"],[]],
+["aReviews","adm","v2","Отзывы и работы",["Оценки уроков, отзывы, работы учеников","Отметить в кейсы (есть согласие на публикацию)"],[]]
+];
+const J={novice:["articles","product","register","gift","player","cabinet","checkout","subscription"],club:["register","cabinet","mycourses","player","subscription"],salon:["salons","checkout","salonDash","salonMaster","player"]};
+const REMOVED=[["Бонусы за подписанные согласия","152-ФЗ: согласие за вознаграждение не считается свободным. Галочка обязательна при регистрации."],["Бан за скриншоты","Браузер не узнаёт о скриншоте. Вместо — водяной знак с почтой и вкладка «Полезные файлы»."],["3 атома в подарок","1 атом — иначе обесценивается главный дешёвый товар."],["Атом за регистрацию друга","Бонус только за покупку друга — иначе накрутка фейками."],["Дарение баллов","Позже, если попросят."],["Свой стриминг эфиров","Встроенный плеер Kinescope/YouTube."],["Чат на платформе","Телеграм, как сейчас в клубе."]];
+const by=Object.fromEntries(N.map(n=>[n[0],n])),SL={mvp:"Запуск",v2:"Вторая очередь",later:"Позже"};
+const map=document.getElementById('map'),panel=document.getElementById('panel');
+let sel=null,jr=null,step=0;
+function draw(){map.innerHTML=Object.entries(Z).map(([k,[t,s]])=>`<div class="zone"><h2>${t}</h2>${s?`<small>${s}</small>`:''}${N.filter(n=>n[1]==k).map(n=>{const i=jr?jr.indexOf(n[0]):-1;return`<button class="node ${n[2]} ${sel==n[0]?'sel':''} ${jr&&i<0?'dim':''}" data-id="${n[0]}">${i>=0?`<span class="n">${i+1}</span>`:''}${n[3]}</button>`}).join('')}</div>`).join('')}
+function show(id){sel=id;const n=by[id];const c=getComputedStyle(document.documentElement).getPropertyValue('--'+n[2]);
+panel.innerHTML=`<h3>${n[3]}</h3><span class="tag" style="background:${c}">${SL[n[2]]}</span> <span style="font-size:12px;color:var(--mut)">${Z[n[1]][0]}</span><div class="lab">На экране</div><ul>${n[4].map(x=>`<li>${x}</li>`).join('')}</ul>${n[5].length?`<div class="lab">Ведёт в</div><div class="links">${n[5].map(l=>`<button data-id="${l}">→ ${by[l][3]}</button>`).join('')}</div>`:''}${jr?`<div class="steps"><button id="prev">← Назад</button><span>Шаг ${step+1} из ${jr.length}</span><button id="next">Дальше →</button></div>`:''}`;draw()}
+function intro(){panel.innerHTML=`<h3>Как смотреть</h3><ul><li>Пять зон слева направо: сайт → вход и оплата → кабинет ученика → салоны → админка.</li><li>Цвет полоски — очередь: зелёная на запуск к переезду с GetCourse, жёлтая — вторая очередь, серая — позже.</li><li>Кликни блок — увидишь, что на экране и куда из него переходить.</li><li>«Путь новичка» и другие кнопки ведут по шагам.</li></ul><div class="note">Сроков и цен тут нет — только структура на согласование.</div>`}
+function removed(){sel=null;jr=null;draw();panel.innerHTML=`<h3>Что убрали / заменили</h3><ul>${REMOVED.map(r=>`<li><b>${r[0]}</b> — ${r[1]}</li>`).join('')}</ul>`}
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+if(b.dataset.j!==undefined){document.querySelectorAll('#bar button').forEach(x=>x.classList.toggle('on',x==b));if(b.dataset.j=='removed')return removed();jr=J[b.dataset.j]||null;step=0;if(jr)show(jr[0]);else{sel=null;draw();intro()}return}
+if(b.id=='next'&&jr){step=Math.min(step+1,jr.length-1);return show(jr[step])}
+if(b.id=='prev'&&jr){step=Math.max(step-1,0);return show(jr[step])}
+if(b.dataset.id){if(jr){const i=jr.indexOf(b.dataset.id);if(i<0)jr=null,document.querySelectorAll('#bar button').forEach(x=>x.classList.toggle('on',x.dataset.j===''));else step=i}show(b.dataset.id)}});
+draw();intro();
+</script></body></html>
