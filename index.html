@@ -825,6 +825,60 @@ body:where(.brand){font-size:var(--fs-body);line-height:1.55}
 }
 @media (min-width:1101px) and (prefers-reduced-motion:reduce){:where(body.brand) *{transition:none!important}:where(body.brand) .hov:hover,:where(body.brand) .bx:hover,:where(body.brand) .evban:hover,:where(body.brand) .btn:active{transform:none}}
 /* ═══ конец блока бренда ═══ */
+/* ═══ посадочная атома и курса v3 (24.09) — стиль школы, токены --c-* из design.md ═══ */
+.ul{font-family:var(--ff);color:var(--c-ink);font-size:17px;line-height:1.55;background:var(--c-bg)}
+.ul a{color:var(--c-em);cursor:pointer}.ul a:hover{color:var(--c-em-h)}
+.ul button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.ul-wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+.ul-crumbs{font-size:13px;color:var(--c-t3);font-weight:500;padding:24px 0 0;display:flex;gap:8px;flex-wrap:wrap}.ul-crumbs a{color:var(--c-t2)}.ul-crumbs i{font-style:normal;color:var(--c-line)}
+.ul-lay{display:grid;grid-template-columns:minmax(0,1fr) 340px;grid-template-areas:"media side" "head side" "body side";column-gap:40px;padding:20px 0 88px;align-items:start}
+.ul-media{grid-area:media;min-width:0}.ul-head{grid-area:head;padding-top:28px}.ul-side{grid-area:side;position:sticky;top:88px;display:grid;gap:16px}.ul-body{grid-area:body;max-width:780px;min-width:0}
+.ul-pl{position:relative;aspect-ratio:16/10;border-radius:32px;background:var(--c-ink);overflow:hidden;color:#fff;user-select:none}
+.ul-stage{position:absolute;inset:0;display:flex;justify-content:center;padding:66px 24px 0;text-align:center;color:var(--c-od3);font-size:13px;font-weight:500}.ul-stage span{max-width:340px}
+.ul-poster{position:absolute;inset:0;background:var(--c-ph);display:flex;align-items:center;justify-content:center;color:var(--c-t3);font-size:15px;font-weight:500;transition:opacity .4s var(--ease)}.ul-pl.ready .ul-poster{opacity:0;pointer-events:none}
+.ul-badge{position:absolute;left:18px;top:18px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;background:var(--c-od-cell);border:1px solid var(--c-od-line);border-radius:999px;padding:6px 12px;color:var(--c-od2)}.ul-badge::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c-tq)}.ul-pl.paused .ul-badge::before{background:var(--c-od3)}
+.ul .ul-big{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:14px;background:#fff;color:var(--c-ink);border-radius:999px;padding:8px 24px 8px 8px;box-shadow:var(--shadow);text-align:left;transition:transform var(--dur) var(--ease)}.ul .ul-big:hover{transform:translate(-50%,-50%) scale(1.03)}
+.ul-big .pb{width:52px;height:52px;border-radius:50%;background:var(--c-tq);display:flex;align-items:center;justify-content:center;color:var(--c-ink)}.ul-big .pb svg{width:22px;height:22px}
+.ul-big b{display:block;font-size:16px;font-weight:600;line-height:1.2;white-space:nowrap}.ul-big small{font-size:13px;color:var(--c-t3);font-weight:500;white-space:nowrap}
+.ul-sub{position:absolute;left:24px;right:24px;bottom:66px;text-align:center;pointer-events:none}.ul-sub span{background:rgba(37,48,51,.82);color:#fff;font-size:15px;font-weight:500;line-height:1.7;padding:4px 10px;border-radius:6px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.ul-ctl{position:absolute;left:18px;right:18px;bottom:16px;display:flex;align-items:center;gap:12px}
+.ul .ul-rb{width:40px;height:40px;border-radius:50%;border:1px solid var(--c-od-btn);color:#fff;font-size:12px;flex:none}
+.ul-segs{flex:1;display:flex;gap:4px;height:20px;align-items:center;cursor:pointer}.ul-segs i{position:relative;height:4px;border-radius:2px;background:var(--c-od-line);overflow:hidden}.ul-segs b{position:absolute;inset:0;width:0;background:var(--c-tq)}
+.ul-tm{font-size:13px;color:var(--c-od2);font-variant-numeric:tabular-nums}
+.ul-pl[data-mode=loop] .fo{display:none}.ul-pl[data-mode=full] .ul-big{opacity:0;pointer-events:none}
+.ul-pl[data-mode=end] .ul-big,.ul-pl[data-mode=end] .ul-ctl,.ul-pl[data-mode=end] .ul-sub,.ul-pl[data-mode=end] .ul-badge{display:none}
+.ul-end{position:absolute;inset:0;background:var(--c-ink);display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:24px}.ul-pl[data-mode=end] .ul-end{display:flex}
+.ul-end b{font-size:22px;letter-spacing:-.015em}.ul-end p{color:var(--c-od2);font-size:15px;margin:0 0 10px}.ul-end>div{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}.ul .ul-again{color:var(--c-od2);font-size:13px;font-weight:500;margin-top:6px}
+.ul-chaps{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:8px;margin-top:14px}
+.ul .ul-chap{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 14px;border:1px solid var(--c-line);border-radius:12px;text-align:left;min-width:0;transition:border-color var(--dur) var(--ease)}
+.ul-chap small{font-size:13px;color:var(--c-t3);font-weight:500}.ul-chap span{font-size:15px;font-weight:600;line-height:1.3}.ul .ul-chap:hover{border-color:var(--c-ink)}.ul .ul-chap.on{border-color:var(--c-tq);background:var(--c-tq-tint)}
+.ul-stl{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;font-weight:500;color:var(--c-t2);margin-bottom:14px}.ul-stl::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c-tq)}
+.ul h1{font-size:44px;line-height:1.05;font-weight:700;letter-spacing:-.03em;margin:0;color:var(--c-ink)}
+.ul .ul-auth{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:18px;font-size:15px;color:var(--c-t2)}.ul-auth b{color:var(--c-ink);font-weight:600}.ul-auth i{width:4px;height:4px;border-radius:50%;background:var(--c-line)}
+.ul-h2{margin-top:36px}.ul h2{font-size:26px;line-height:1.2;font-weight:700;letter-spacing:-.015em;margin:0 0 14px}
+.ul-h2 details{margin-top:18px;background:var(--c-sec);border-radius:24px;padding:14px 22px}.ul-h2 summary{cursor:pointer;font-weight:600;font-size:15px}.ul-h2 details p{font-size:15px;color:var(--c-t2);margin-top:8px}.ul-h2 details small{color:var(--c-em);font-weight:500;margin-right:8px}
+.ul-s{margin-top:40px;padding-top:32px;border-top:1px solid var(--c-line)}.ul-s h3,.ul-s h4,.ul-s h5{font-size:22px;line-height:1.2;font-weight:700;letter-spacing:-.015em;margin:0 0 14px;color:var(--c-ink)}.ul-s p{margin:0 0 10px}
+.ul-ck{list-style:none;padding:0;margin:0;display:grid;gap:8px;font-size:15px;color:var(--c-t2)}.ul-ck li{padding-left:24px;position:relative}.ul-ck li::before{content:"";position:absolute;left:2px;top:6px;width:10px;height:6px;border-left:2px solid var(--c-em);border-bottom:2px solid var(--c-em);transform:rotate(-45deg)}
+.ul-lnk{display:inline-block;margin-top:14px;font-size:15px;font-weight:500}
+.ul-mod{border:1px solid var(--c-line);border-radius:24px;padding:16px 22px;margin-top:10px}.ul-mh{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}.ul-mh b{font-size:17px}
+.ul-ls{display:flex;justify-content:space-between;gap:16px;padding:6px 0;font-size:15px;border-top:1px solid var(--c-sec)}.ul-ls small{color:var(--c-t3);white-space:nowrap}
+.ul-pill{font-size:12px;font-weight:500;padding:3px 10px;border-radius:999px;border:1px solid var(--c-line);color:var(--c-t2)}.ul-pill.t{background:var(--c-tq-tint);color:var(--c-tq-on-tint);border-color:transparent}.ul-pill.l{background:var(--c-sec)}
+.ul-streams{margin-bottom:6px}.ul-streams small{display:block;font-size:13px;color:var(--c-t3);margin-bottom:8px}.ul-streams div{display:flex;gap:6px;flex-wrap:wrap}
+.ul-goods{display:grid;gap:8px;margin:0 0 12px}.ul-goods>div{display:flex;justify-content:space-between;align-items:center;gap:12px;border:1px solid var(--c-line);border-radius:12px;padding:10px 14px;font-size:15px}.ul-goods span{display:flex;gap:10px;align-items:center}
+.ul-card{border:1px solid var(--c-line);border-radius:24px;padding:24px;background:#fff}.ul-buy{box-shadow:var(--shadow);border-color:transparent}
+.ul-price{font-size:30px;font-weight:700;letter-spacing:-.03em;line-height:1}.ul-meta{font-size:13px;color:var(--c-t3);font-weight:500;margin:8px 0 18px}
+.ul-buy .ul-ck{margin-top:18px}
+.ul-tar{display:flex;gap:4px;background:var(--c-sec);border-radius:12px;padding:3px;margin-bottom:16px}.ul .ul-tar button{flex:1;padding:6px 4px;border-radius:9px;font-size:13px;font-weight:500;color:var(--c-t2)}.ul .ul-tar button.on{background:#fff;color:var(--c-ink);box-shadow:0 1px 3px rgba(37,48,51,.12)}
+.ul .ul-btn{display:flex;align-items:center;justify-content:center;height:52px;padding:0 22px;border-radius:12px;background:var(--c-tq);color:var(--c-ink);font-weight:600;font-size:16px;border:1px solid transparent;white-space:nowrap;transition:background-color var(--dur) var(--ease),border-color var(--dur) var(--ease)}.ul .ul-btn:hover{background:var(--c-tq-h);color:var(--c-ink)}
+.ul .ul-btn.o{background:#fff;border-color:var(--c-line)}.ul .ul-btn.o:hover{border-color:var(--c-ink)}.ul .ul-btn.g{background:transparent;color:#fff;border-color:var(--c-od-btn)}.ul .ul-btn.s{height:44px;font-size:15px}.ul .ul-btn.xs{height:34px;padding:0 12px;font-size:13px}
+.ul-club{background:var(--c-tq-tint);border-color:transparent}.ul-club b{display:block;font-size:22px;letter-spacing:-.015em;line-height:1.2}.ul-club p{font-size:15px;color:var(--c-t2);margin:8px 0 16px}
+.ul-note{border-radius:24px;padding:20px;background:var(--c-em-tint)}.ul-note p{font-size:14px;color:var(--c-t2);margin:6px 0 12px}
+.ul-sticky{display:none}
+@media (max-width:1100px){.ul-lay{grid-template-columns:minmax(0,1fr);grid-template-areas:"media" "head" "side" "body"}.ul-side{position:static;grid-template-columns:1fr 1fr;margin-top:24px;align-items:start}.ul h1{font-size:36px}}
+@media (max-width:640px){.ul-wrap{padding:0 16px}.ul-lay{padding-top:12px}.ul-media{margin:0 -16px}.ul-pl{aspect-ratio:4/5;border-radius:0}.ul-chaps{display:flex;overflow-x:auto;scrollbar-width:none;padding:0 16px}.ul-chaps::-webkit-scrollbar{display:none}.ul .ul-chap{flex:none}.ul-chap span{white-space:nowrap}
+.ul-side{grid-template-columns:1fr}.ul h1{font-size:30px}.ul-head{padding-top:20px}.ul .ul-big{padding:6px 18px 6px 6px;gap:10px}.ul-big .pb{width:44px;height:44px}.ul-big b{font-size:15px}.ul-sub{left:14px;right:14px;bottom:62px}.ul-sub span{font-size:14px}
+.ul-sticky{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;gap:10px;align-items:center;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--c-line);transform:translateY(110%);transition:transform var(--dur) var(--ease)}.ul-sticky.on{transform:none}.ul-sticky .ul-btn{flex:1}.ul-sticky>button{width:52px;height:52px;border-radius:12px;border:1px solid var(--c-line)!important;flex:none}.ul-goods>div{flex-wrap:wrap}}
+@media (prefers-reduced-motion:reduce){.ul *{transition:none!important}}
 </style></head><body>
 <div class="demo"><b>ПРОТОТИП v2</b>данные тестовые · войти как:
 <button onclick="demo('club')">участник клуба</button><button onclick="demo('salon')">руководитель салона</button><button onclick="demo('master')">мастер-партнёр</button><button onclick="demo('ugc')">UGC-креатор</button><button onclick="demo('admin')">Катя (админ)</button><button onclick="demo('out')">выйти</button></div>
@@ -2095,5 +2149,69 @@ return AD("admin/bi",`<div class="ph"><div><h1>Аналитика</h1><p class="
 R["admin/content"]=()=>AD("admin/content",`<div class="ph"><div><h1>Контент</h1><p class="mut">${Object.keys(P).length} продуктов · продажи и доходимость за 30 дней</p></div><a class="btn s" onclick="toast('Новый продукт (прототип)')">${ic("plus")} Создать</a></div>${tbl(["Продукт","Тип","Уроков","Продаж","Доходимость","Рейтинг","",""],Object.values(P).filter(p=>!p.by).map(p=>{const r=biR("c"+p.id);const dn=Math.round(28+r()*50);return[`<b>${p.title}</b>`,`<span class="sm">${p.kind}</span>`,lessons(p).length,Math.round(4+r()*90),`<div class="uprog">${bar(dn,100)}<span class="xs${dn<35?" warnt":""}">${dn}%</span></div>`,"★ "+(4.5+r()*.5).toFixed(1).replace(".",","),p.sub?pill("g","в подписке"):"",`<a onclick="go('#/admin/edit/${p.id}')">изменить</a>`]}))}`);
 R["admin/masters"]=()=>AD("admin/masters",`<div class="ph"><div><h1>Мастера-партнёры</h1><p class="mut">Заявки, рейтинг, продажи за 30 дней</p></div><a class="btn o s" onclick="S.ui.bt='prt';go('#/admin/bi')">${ic("chart")} Аналитика партнёров</a></div>${tbl(["Мастер","Рейтинг","Продуктов","Продаж","Возвраты","Статус",""],MASTERS.slice(1).map((m,i)=>[`<b>${m.name}</b><div class="xs mut">${m.spec}</div>`,"★ "+m.rate,String(Object.values(P).filter(p=>by(p)==m.id).length),[38,21,14][i]||5,[1,0,1][i]||0,pill("g","активен"),`<span class="uact">${vaBtn("master",m.name,m.id+"@mail.ru")}</span>`]).concat([["<b>Новая заявка: Даша П.</b><div class='xs mut'>Педикюр · 6 лет опыта</div>","—","0","—","—",pill("y","ждёт 2 дня"),`<a class="btn xs" onclick="alog('подключила мастера · Даша П.');save();toast('Мастер подключён')">Подключить</a>`]]))}`);
 const _render8=render;render=function(){const ud=document.querySelector(".udr"),uy=ud?ud.scrollTop:0;_render8();const ud2=document.querySelector(".udr");if(ud&&ud2){ud2.style.animation="none";ud2.scrollTop=uy}if(/^#\/admin/.test(CUR))biDraw();const t=document.getElementById("bitt");if(t)t.style.display="none"};
+/* ---------- посадочная атома и курса v3: один шаблон по схеме Ильи (24.09) — видео, H1, автор, H2, H3–H5, справа цена и клуб ---------- */
+const ULK=p=>p.kind=="Атом"||p.kind=="Курс"||p.kind=="Урок на модели";
+const ulW=(n,a,b,c)=>n%10==1&&n%100!=11?a:n%10>1&&n%10<5&&(n%100<12||n%100>14)?b:c;
+const ulMin=p=>lessons(p).reduce((s,l)=>s+(parseInt(l[2])||0),0);
+function ulChaps(p){if(p.kind=="Курс"){const m=p.mods.slice(0,4),n=m.length,st=45/n;return m.map((x,i)=>[x.t,Math.round(i*st),"Модуль "+(i+1)+": "+x.t.toLowerCase()])}
+ return[["Где ошибка",0,"Сначала — где появляется ошибка и почему"],["Как правильно",15,"Правильное движение крупным планом"],["Проверка",32,"Проверяем результат до того, как идти дальше"]]}
+const UL={mode:"loop",t:0,playing:false,muted:true,ch:[],raf:0,vis:true};
+function ulPage(id){const p=P[id],m=MS(by(p)),L=lessons(p),n=L.length,mins=ulMin(p),own=has(id),isC=p.kind=="Курс",ch=ulChaps(p);UL.ch=ch;UL.mode="loop";UL.t=0;UL.playing=false;UL.muted=true;
+ const w=isC?"курс":"урок",W=isC?"курсе":"уроке";
+ const inK=typeof KOMBI_ATOMS!="undefined"&&KOMBI_ATOMS.includes(id);
+ const stl=`${p.kind}${p.topic?" · "+p.topic:""}${inK?` · входит в <a onclick="go('#/p/kombi')">«${P.kombi.title}»</a>`:""}`;
+ const ti=S.ui.tar??(p.tar?1:3);
+ const tarSeg=p.tar?`<div class="ul-tar">${TAR.map((t,i)=>`<button class="${i==ti?"on":""}" onclick="ui('tar',${i})">${t}</button>`).join("")}</div>`:"";
+ const acc=p.kind=="Урок на модели"||p.kind=="Атом"?"доступ бессрочно":p.tar?(ti==3?"доступ навсегда + разборы куратора":"доступ на "+TAR[ti]):"доступ бессрочно";
+ const ownA=id=="kombi"&&!own?KOMBI_ATOMS.filter(a=>S.owned.includes(a)):[];
+ const credit=ownA.length?`<div class="ul-note"><b>У вас уже ${ownA.length} ${ulW(ownA.length,"атом","атома","атомов")} из курса</b><p>Их стоимость вычтем: ${ownA.map(a=>P[a].price).join(" + ")}. Доплата до курса — X ₽.</p><a class="ul-btn s" onclick="buy('kombi')">Доплатить до курса</a></div>`:"";
+ const buyC=`<div class="ul-card ul-buy" id="ulbuy">${tarSeg}<div class="ul-price">${own?"Открыто":p.price}</div><p class="ul-meta">${n} ${ulW(n,"урок","урока","уроков")}${mins?" · "+mins+" мин":""} · ${acc}</p>${own?`<a class="ul-btn" onclick="go('#/learn/${id}')">Смотреть</a>`:`<a class="ul-btn" onclick="buy('${id}')">${isC?"Купить курс":"Купить урок"}</a>`}${!own&&S.points?`<p class="ul-meta" style="text-align:center;margin:10px 0 0">Можно оплатить баллами: у вас ${S.points}</p>`:""}<ul class="ul-ck">${(isC?["Отработки с проверкой после модулей","Конспект и таймкоды под каждым видео","Сертификат с QR-проверкой"]:["Видео крупным планом, "+(mins||10)+" мин","Разбор типичных ошибок","Смотреть с телефона и компьютера"]).map(x=>`<li>${x}</li>`).join("")}</ul></div>`;
+ const clubC=p.sub&&!own&&!S.sub?`<div class="ul-card ul-club"><b>7 дней клуба бесплатно</b><p>${isC?"Этот курс входит в абонемент школы":"Этот урок и вся библиотека клуба"} — неделю без оплаты.</p><a class="ul-btn o" onclick="go('#/p/sub')">Попробовать клуб</a></div>`:"";
+ const ans=isC?`«${p.title}» — ${p.mods.length} ${ulW(p.mods.length,"модуль","модуля","модулей")} и ${n} ${ulW(n,"урок","урока","уроков")}${mins?", около "+Math.round(mins/60*10)/10+" ч видео":""}. ${p.desc} Каждый модуль заканчивается отработкой: мастер смотрит работу и объясняет, что исправить.`:`${p.title} — один приём из темы «${p.topic}». ${p.desc} Урок идёт ${mins||10} минут: сначала — где возникает ошибка, потом правильное движение и проверка результата.`;
+ const why=isC?["Понимаете причину каждого движения, а не повторяете за мастером","Отработки после модулей — с разбором куратора","Сертификат школы с номером и QR-проверкой"]:["Закрываете одну конкретную проблему без целого курса","Видите движение крупным планом, медленно","Знаете, как проверить себя до лампы"];
+ const prog=p.mods.map((mo,i)=>{const need=p.gc&&p.tar?p.mt[i]:0,lock=need>ti;return`<div class="ul-mod"><div class="ul-mh"><b>${p.mods.length>1?"Модуль "+(i+1)+" · ":""}${mo.t}</b>${need>0?`<span class="ul-pill${lock?" l":""}">${lock?"закрыто · ":""}с тарифа ${TAR[need]}</span>`:""}</div>${mo.ls.map(l=>`<div class="ul-ls"><span>${l[1]}</span><small>${l[2]}</small></div>`).join("")}</div>`}).join("");
+ const streams=p.streams?`<div class="ul-streams"><small>Потоки курса — одна программа, разные даты</small><div>${p.streams.map(s=>`<span class="ul-pill${/идёт|старт|открыт/i.test(s)?" t":""}">${s}</span>`).join("")}</div></div>`:"";
+ const goods=goodsOf(id),kit=id=="kombi";
+ const need=`<p><b>Для кого:</b> ${isC?"начинающим мастерам и тем, кто хочет собрать технику в систему":"мастерам, у которых именно эта тема вызывает вопросы; подходит и начинающим"}.</p>${goods.length?`<p><b>Что нужно:</b></p><div class="ul-goods">${goods.map(g=>`<div><a onclick="go('#/shop/${g[0]}')">${g[1]}</a><span><b>X ₽</b><a class="ul-btn o xs" onclick="addCart('${g[0]}',event)">В корзину</a></span></div>`).join("")}</div>`:`<p><b>Что нужно:</b> рабочее место мастера и материалы, которыми вы работаете сейчас.</p>`}${kit?`<p><a onclick="go('#/shop/kit1')">Набор к курсу: всё, чем Катя работает в видео →</a></p>`:""}<p><b>Материалы:</b> ${p.files.join(", ")}.</p>`;
+ const cert=isC?`<a class="ul-lnk" onclick="go('#/cert/${id}')">Как выглядит сертификат →</a>`:"";
+ const segs=ch.map((c,i)=>`<i style="flex:${(ch[i+1]?ch[i+1][1]:45)-c[1]}"><b></b></i>`).join("");
+ return`<div class="ul"><div class="ul-wrap">
+<div class="ul-crumbs"><a onclick="go('#/catalog')">Обучение</a><i>/</i>${p.topic?`<a onclick="go('#/catalog')">${p.topic}</a><i>/</i>`:""}<span>${p.title}</span></div>
+<div class="ul-lay">
+<div class="ul-media"><div class="ul-pl paused" id="ulpl" data-mode="loop">
+<div class="ul-stage"><span id="ulstage">Петля 8 с без звука: главный момент ${w==="курс"?"курса":"урока"} крупным планом (снимем — пока заглушка)</span></div>
+<div class="ul-sub"><span id="ulsub"></span></div><div class="ul-badge" id="ulbadge">Без звука</div>
+<button class="ul-big" onclick="ulFull(0)"><span class="pb">${ic("play",1)}</span><span><b>Смотреть со звуком</b><small>фрагмент ${isC?"курса":"урока"} · 0:45</small></span></button>
+<div class="ul-ctl"><button class="ul-rb fo" id="ulpp" onclick="ulPP()" aria-label="Пауза">❚❚</button><div class="ul-segs" id="ulsegs" onclick="ulSeek(event)">${segs}</div><span class="ul-tm fo" id="ultm">0:00 / 0:45</span></div>
+<div class="ul-end"><b>Это 45 секунд из ${mins?mins+" минут":"урока"}</b><p>${isC?"В курсе — все модули, отработки и разборы":"В уроке — все шаги крупным планом и разбор ошибок"}</p><div>${own?`<a class="ul-btn" onclick="go('#/learn/${id}')">Смотреть полностью</a>`:`<a class="ul-btn" onclick="buy('${id}')">${isC?"Купить курс":"Купить урок"} · ${p.price}</a>${p.sub&&!S.sub?`<a class="ul-btn g" onclick="go('#/p/sub')">Неделя в клубе бесплатно</a>`:""}`}</div><button class="ul-again" onclick="ulFull(0)">↻ Посмотреть ещё раз</button></div>
+<div class="ul-poster">Обложка — кадр результата (снимем)</div>
+</div>
+<div class="ul-chaps">${ch.map((c,i)=>`<button class="ul-chap" data-i="${i}" onclick="ulFull(${c[1]})"><small>0:${String(c[1]).padStart(2,"0")}</small><span>${c[0]}</span></button>`).join("")}</div></div>
+<div class="ul-head"><div class="ul-stl">${stl}</div><h1>${p.title}</h1><a class="ul-auth" onclick="go('#/m/${m.id}')">${mav(m,40)}<span><b>${m.name}</b> · ${m.id=="katya"?"автор метода":"мастер-партнёр"}</span><i></i><span>★ ${m.rate}</span><i></i><span>${m.st} учениц</span></a></div>
+<aside class="ul-side">${buyC}${credit}${clubC}</aside>
+<div class="ul-body">
+<section class="ul-h2"><h2>Коротко: ${isC?"что даёт этот курс":"о чём этот урок"}</h2><p>${ans}</p><details><summary>Расшифровка фрагмента</summary>${ch.map(c=>`<p><small>0:${String(c[1]).padStart(2,"0")}</small>${c[2]}.</p>`).join("")}</details></section>
+<section class="ul-s"><h3>Что в ${W}</h3><ul class="ul-ck">${why.map(x=>`<li>${x}</li>`).join("")}</ul>${cert}</section>
+<section class="ul-s"><h4>Программа</h4>${streams}${prog}</section>
+<section class="ul-s"><h5>Для кого и что нужно</h5>${need}</section>
+</div></div></div>
+<div class="ul-sticky" id="ulst"><button onclick="ulToVid()" aria-label="Смотреть видео">▶</button>${own?`<a class="ul-btn" onclick="go('#/learn/${id}')">Смотреть</a>`:`<a class="ul-btn" onclick="buy('${id}')">${isC?"Купить курс":"Купить урок"} · ${p.price}</a>`}</div></div>`}
+const _p9=R.p;R.p=id=>{const p=P[id];return p&&ULK(p)?ulPage(id):_p9(id)};
+function ulDraw(){const pl=document.getElementById("ulpl");if(!pl)return;const ch=UL.ch,F=45,L=8;pl.dataset.mode=UL.mode;pl.classList.toggle("paused",!UL.playing);
+ const segs=[...pl.querySelectorAll(".ul-segs b")],ci=UL.mode=="loop"?0:Math.max(0,ch.findIndex((c,i)=>UL.t>=c[1]&&UL.t<(ch[i+1]?ch[i+1][1]:F+1)));
+ if(UL.mode=="loop"){segs.forEach((b,i)=>b.style.width=i==0?(UL.t/L*100)+"%":"0");document.getElementById("ulsub").textContent=UL.t<L/2?ch[0][2]:"Полностью — в "+(ch.length>3?"курсе":"уроке")}
+ else{segs.forEach((b,i)=>{const a=ch[i][1],e=ch[i+1]?ch[i+1][1]:F;b.style.width=(i<ci?100:i>ci?0:(UL.t-a)/(e-a)*100)+"%"});document.getElementById("ulsub").textContent=ch[ci][2];const f=s=>"0:"+String(Math.floor(s)).padStart(2,"0");document.getElementById("ultm").textContent=f(Math.min(UL.t,44.9))+" / 0:45"}
+ document.getElementById("ulbadge").textContent=UL.mode=="loop"?(UL.playing?"Без звука":"Пауза"):(UL.playing?"Со звуком":"Пауза");
+ document.getElementById("ulpp").textContent=UL.playing?"❚❚":"▶";
+ document.querySelectorAll(".ul-chap").forEach((b,i)=>b.classList.toggle("on",UL.mode=="full"&&i==ci))}
+function ulFull(t){UL.mode="full";UL.t=t;UL.playing=true;UL.muted=false;ulDraw()}
+function ulPP(){UL.playing=!UL.playing;ulDraw()}
+function ulSeek(e){const r=e.currentTarget.getBoundingClientRect();ulFull(Math.max(0,Math.min(44.9,(e.clientX-r.left)/r.width*45)))}
+function ulToVid(){const pl=document.getElementById("ulpl");if(pl){pl.scrollIntoView({block:"center",behavior:"smooth"});ulFull(UL.mode=="full"?UL.t:0)}}
+function ulUpd(){const pl=document.getElementById("ulpl"),b=document.getElementById("ulbuy"),st=document.getElementById("ulst");if(!pl)return;const h=innerHeight,p=pl.getBoundingClientRect(),k=p.height*.35;UL.vis=p.bottom>k&&p.top<h-k;if(b&&st){const r=b.getBoundingClientRect();st.classList.toggle("on",r.bottom<0||r.top>h)}}
+addEventListener("scroll",ulUpd,{passive:true});addEventListener("resize",ulUpd);
+let ulLast=0;function ulTick(now){const dt=Math.min((now-ulLast)/1000,.1);ulLast=now;if(UL.playing&&UL.vis&&document.getElementById("ulpl")){UL.t+=dt;if(UL.mode=="loop"&&UL.t>=8)UL.t=0;if(UL.mode=="full"&&UL.t>=45){UL.t=45;UL.playing=false;UL.mode="end"}ulDraw()}requestAnimationFrame(ulTick)}requestAnimationFrame(n=>{ulLast=n;ulTick(n)});
+const _render9=render;render=function(){_render9();const pl=document.getElementById("ulpl");if(!pl)return;ulUpd();ulDraw();setTimeout(()=>{if(!document.getElementById("ulpl"))return;pl.classList.add("ready");if(!matchMedia("(prefers-reduced-motion: reduce)").matches&&UL.mode=="loop"){UL.playing=true;ulDraw()}},500)};
+
 render();
 </script></body></html>
