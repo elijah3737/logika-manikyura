@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Логика маникюра — прототип v2</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400..700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--tf:#0ABAB5;--tf2:#09A8A3;--tfd:#0A8481;--tq:#5EEAD4;--tint:#E6F8F7;--tint2:#CDF1EF;--ink:#171717;--ch:#1e2022;--mut:#6e6e73;--mut2:#86868b;--bg:#fff;--bg2:#f5f5f7;--line:#e8e8ed;--red:#d92d20;--redbg:#fde8e6;--amb:#a15c00;--ambbg:#fff3df;--grn:#0f7a5a;--grnbg:#e2f5ec;--sh:0 4px 20px rgba(0,0,0,.04);--sh2:0 14px 40px rgba(0,0,0,.09);--r:24px;--rm:13px;--rs:6px;--tfh:#0A9A96;--r2:32px;--sh3:0 18px 44px rgba(16,24,24,.14);--eo:cubic-bezier(.2,.8,.2,1);--ph-t:linear-gradient(155deg,#E3F7F5,#A9E4DF);--ph-n:linear-gradient(155deg,#F5E6DF,#DDB3A5);--ph-k:linear-gradient(155deg,#0a5f5c,#0ABAB5 65%,#5EEAD4);--glass:rgba(255,255,255,.10);--glass-b:rgba(255,255,255,.16);--on-dark:#c7c7cc}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
@@ -558,7 +558,270 @@ footer .fsoc a{display:inline;color:inherit;text-decoration:underline;margin:0}
 @media(max-width:1100px){.adir{grid-template-columns:repeat(2,1fr)}.bisrcs>div{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:900px){.bigr2,.adf{grid-template-columns:1fr}}
 @media(max-width:560px){.adir{grid-template-columns:1fr}.bitls{grid-template-columns:1fr 1fr}.bitl b{font-size:21px}.bihr{grid-template-columns:1fr auto}.bihr .biht{grid-column:1/-1;grid-row:2}.bifr{grid-template-columns:1fr 60px}.bifr .bift{grid-column:1/-1;grid-row:2}.bifc{padding-left:0}.bisrcs>div{grid-template-columns:1fr}.udst{grid-template-columns:1fr 1fr}.udr{padding:16px}}
-.ctop .ctseg button{padding:6px 14px;font-size:13.5px}</style></head><body>
+.ctop .ctseg button{padding:6px 14px;font-size:13.5px}.ctflt{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;min-width:0;flex:1 1 auto}.ctflt .bisel select{max-width:200px}.ctop:has(.ctflt){height:auto;min-height:60px;padding-top:10px;padding-bottom:10px}@media(max-width:820px){.ctflt{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;flex:1 1 0}.ctflt::-webkit-scrollbar{display:none}.ctflt .bisel select{max-width:170px}}.ctflt>*{flex:none}.ctflt .seg{flex-wrap:nowrap}.ctflt .seg button{padding:6px 14px;font-size:13.5px}.ctflt .bisel select{padding:6px 28px 6px 12px}/* ═══ БРЕНД ГЛАВНОЙ · этап 4 · 24.09.2026 · правила — platform/proto/design.md ═══
+   Только главная (#/): класс body.brand ставит render(). Только десктоп — от 1101 px, уже — прежний вид.
+   Слои А и Б повторяют правила главной под :where(body.brand): специфичность та же, стоят позже → берут верх,
+   каскад между ними как в исходнике. Внутренние страницы не затронуты.
+   Откат: удалить блок целиком, «document.body.classList.toggle("brand",!a);» в render() и Geologica в <head>. */
+:root{
+--c-bg:#FFFFFF;--c-ink:#253033;--c-tq:#0ABAB5;--c-tq-h:#09A8A3;--c-tq-tint:#E1F5F4;--c-tq-on-tint:#0A6F6C;
+--c-em:#0B7A5C;--c-em-h:#09664D;--c-em-tint:#E2F1EB;--c-t2:#56656A;--c-t3:#6B787C;--c-line:#DCE2E3;--c-ph:#E6ECEC;--c-sec:#F1F4F4;
+--c-on-ink:#FFFFFF;--c-od2:#B7C3C5;--c-od3:#8E9B9E;--c-od-line:rgba(255,255,255,.12);--c-od-cell:rgba(255,255,255,.05);--c-od-btn:rgba(255,255,255,.28);
+--c-err:#B42318;--c-err-tint:#FEF3F2;--c-warn:#A15C00;--c-warn-tint:#FFF3DF;--c-label:rgba(255,255,255,.8);
+--ff:Geologica,system-ui,-apple-system,"Segoe UI",sans-serif;
+--fs-h1:58px;--fs-h2:44px;--fs-h3:26px;--fs-card:22px;--fs-lead:19px;--fs-body:17px;--fs-sm:15px;--fs-cap:13px;--fs-btn:16px;--fs-btn-s:15px;--fs-num:30px;--fs-num-l:36px;
+--r-s:12px;--r-m:24px;--r-l:32px;--r-pill:999px;
+--shadow:0 14px 36px rgba(37,48,51,.12);--ring:0 0 0 4px rgba(10,186,181,.18);
+--ease:cubic-bezier(.2,.8,.2,1);--dur:180ms}
+@media (min-width:1101px){
+body.brand{--tf:var(--c-tq);--tf2:var(--c-tq-h);--tfh:var(--c-em);--tfd:var(--c-em);--tq:var(--c-tq);--tint:var(--c-tq-tint);--tint2:var(--c-tq-tint);
+--ink:var(--c-ink);--ch:var(--c-ink);--mut:var(--c-t2);--mut2:var(--c-t3);--bg:var(--c-bg);--bg2:var(--c-sec);--line:var(--c-line);
+--red:var(--c-err);--redbg:var(--c-err-tint);--amb:var(--c-warn);--ambbg:var(--c-warn-tint);--grn:var(--c-em);--grnbg:var(--c-em-tint);
+--on-dark:var(--c-od2);--glass:var(--c-od-cell);--glass-b:var(--c-od-line);--sh:none;--sh2:var(--shadow);--sh3:var(--shadow);
+--r:var(--r-m);--rm:var(--r-s);--rs:var(--r-pill);--r2:var(--r-l);--eo:var(--ease);--ph-t:var(--c-ph);--ph-n:var(--c-ph);--ph-k:var(--c-ph)}
+/* слой А: цвет, форма, тени, движение — повтор правил главной на токенах */
+body:where(.brand){font-family:var(--ff);background:var(--bg);color:var(--ink)}
+:where(body.brand) a{color:var(--tfd)}
+:where(body.brand) button{color:inherit;background:none;border:0}
+:where(body.brand) h1{letter-spacing:-.03em}
+:where(body.brand) h2{letter-spacing:-.015em}
+:where(body.brand) h3{letter-spacing:-.015em;font-weight:700}
+:where(body.brand) h4{letter-spacing:-.015em}
+:where(body.brand) h1{font-weight:700}
+:where(body.brand) h2{font-weight:700}
+:where(body.brand) h3{font-weight:700}
+:where(body.brand) h4{font-weight:600}
+:where(body.brand) .mut{color:var(--mut)}
+:where(body.brand) .kick{font-weight:500;letter-spacing:0;text-transform:none;color:var(--tfd)}
+:where(body.brand) svg.i{fill:none;stroke:currentColor}
+:where(body.brand) svg.i.f{fill:currentColor;stroke:none}
+:where(body.brand) .btn{background:var(--tf);color:var(--c-ink);border:1px solid transparent;border-radius:var(--rm);font-weight:600;transition:background-color var(--dur) var(--ease),border-color var(--dur) var(--ease),color var(--dur) var(--ease),transform var(--dur) var(--ease)}
+:where(body.brand) .btn:hover{background:var(--tf2);transform:none}
+:where(body.brand) .btn.o{background:var(--c-bg);color:var(--ch);border-color:var(--line)}
+:where(body.brand) .btn.o:hover{background:var(--c-bg);border-color:var(--c-ink)}
+:where(body.brand) .btn.xs{border-radius:var(--r-s)}
+:where(body.brand) .lnk{color:var(--c-em);font-weight:500}
+:where(body.brand) .lnk:hover{color:var(--c-em-h)}
+:where(body.brand) .card{background:var(--c-bg);border-radius:var(--r);box-shadow:none}
+:where(body.brand) .hov{transition:transform var(--dur) var(--ease),box-shadow var(--dur) var(--ease)}
+:where(body.brand) .hov:hover{box-shadow:var(--shadow);transform:translateY(-3px)}
+:where(body.brand) .dark{background:var(--ch);color:var(--c-on-ink)}
+:where(body.brand) .dark .mut{color:var(--c-od2)}
+:where(body.brand) .sec.g{background:var(--bg2)}
+:where(body.brand) .sec .lead{color:var(--mut)}
+:where(body.brand) .pill{border-radius:var(--r-pill);font-weight:600;background:var(--bg2);color:var(--mut)}
+:where(body.brand) .pill.t{background:var(--tint);color:var(--c-tq-on-tint)}
+:where(body.brand) .pill.g{background:var(--grnbg);color:var(--grn)}
+:where(body.brand) .pill.d{background:var(--ch);color:var(--c-on-ink)}
+:where(body.brand) .hdr{background:var(--c-bg);backdrop-filter:none;-webkit-backdrop-filter:none;border-bottom:1px solid var(--c-line)}
+:where(body.brand) .logo{font-weight:700;color:var(--ink);letter-spacing:-.015em}
+:where(body.brand) .nav a{color:var(--ch);font-weight:500;transition:color var(--dur),transform var(--dur) var(--eo)}
+:where(body.brand) .nav a:before{border-radius:var(--r-pill);background:none;border:1px solid var(--c-bg);box-shadow:none;transition:opacity var(--dur) var(--eo),transform var(--dur) var(--eo);display:none}
+:where(body.brand) .nav a:after{border-radius:var(--rs);background:var(--tfd);transition:transform var(--dur) var(--ease)}
+:where(body.brand) .nav a:hover{color:var(--tfd);transform:none}
+:where(body.brand) .nav a:hover:before{transform:scale(1)}
+:where(body.brand) .hero h1{font-weight:700;letter-spacing:-.03em}
+:where(body.brand) .hero h1 em{color:var(--c-em)}
+:where(body.brand) .hero p.lead{color:var(--mut)}
+:where(body.brand) .trust{color:var(--mut)}
+:where(body.brand) .trust b{color:var(--ink);letter-spacing:-.015em}
+:where(body.brand) .cov{border-radius:var(--r-s);color:var(--c-ink)}
+:where(body.brand) .cov .dur{background:var(--c-label);color:var(--c-ink);border-radius:var(--r-pill)}
+:where(body.brand) .price{font-weight:700}
+:where(body.brand) .subban{border-radius:var(--r-l)}
+:where(body.brand) .subban h2{letter-spacing:-.03em}
+:where(body.brand) .subban li svg{color:var(--tq)}
+:where(body.brand) .evrow .d b{letter-spacing:-.015em}
+:where(body.brand) .evrow .d span{color:var(--mut);text-transform:none;letter-spacing:0}
+:where(body.brand) footer{border-top:1px solid var(--line);color:var(--mut)}
+:where(body.brand) .fcols a{color:var(--ch)}
+:where(body.brand) .bar{background:var(--line);border-radius:var(--r-pill)}
+:where(body.brand) .bar i{background:var(--tf);border-radius:var(--r-pill);transition:var(--dur)}
+:where(body.brand) .toast{background:var(--ch);color:var(--c-on-ink);border-radius:var(--r-pill);transition:var(--dur);box-shadow:var(--shadow)}
+:where(body.brand) .ico{border-radius:50%;background:var(--c-bg);box-shadow:none;color:var(--ch)}
+:where(body.brand) .ava{border-radius:50%;background:var(--c-em-tint);color:var(--c-em);font-weight:700}
+:where(body.brand) figcaption{color:var(--mut)}
+:where(body.brand) .evrow .d span{text-transform:none}
+:where(body.brand) .hpromoin{background:var(--ch);color:var(--c-on-ink);border-radius:var(--r);box-shadow:none}
+:where(body.brand) .hpromoin .mut{color:var(--c-od2)}
+:where(body.brand) .hpromoin .lnk{color:var(--tq);font-weight:700}
+:where(body.brand) .hpromoin .pill{background:var(--c-tq);color:var(--c-ink);font-weight:700}
+:where(body.brand) .hb{letter-spacing:-.03em;font-weight:700}
+:where(body.brand) .hb em{color:var(--tfh)}
+:where(body.brand) .h3hero h1 em{color:var(--tfh)}
+:where(body.brand) .btn.xl{border-radius:var(--r-s)}
+:where(body.brand) .fph{border-radius:var(--r-m);background:var(--ph-t)}
+:where(body.brand) .fph:before{background:none;box-shadow:none;border-radius:inherit}
+:where(body.brand) .fph[data-tone=k]:before{background:none}
+:where(body.brand) .fph[data-tone=n]{background:var(--ph-n)}
+:where(body.brand) .fph[data-tone=k]{background:var(--ph-k)}
+:where(body.brand) .fphl{background:var(--c-label);border-radius:var(--r-pill);font-weight:500;color:var(--c-t2)}
+:where(body.brand) .fph[data-tone=k] .fphl{background:var(--c-label);color:var(--c-t2)}
+:where(body.brand) .wg{background:var(--c-bg);color:var(--ink);border-radius:var(--r-m);box-shadow:var(--shadow)}
+:where(body.brand) .wg b{font-weight:600}
+:where(body.brand) .okc{border-radius:50%;background:var(--tint);color:var(--tfd)}
+:where(body.brand) .wgcov{border-radius:var(--r-s);color:var(--c-ink)}
+:where(body.brand) .bx{background:var(--bg2);border-radius:var(--r-m);transition:transform var(--dur) var(--eo),box-shadow var(--dur) var(--eo)}
+:where(body.brand) .bx:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+:where(body.brand) .bx h3{letter-spacing:-.015em}
+:where(body.brand) .bx.dark{background:var(--ch);color:var(--c-on-ink)}
+:where(body.brand) .bx.dark .mut{color:var(--c-od2)}
+:where(body.brand) .bx.dark .kick{color:var(--tq)}
+:where(body.brand) .bx.dark .bxl{color:var(--tq)}
+:where(body.brand) .bxl{font-weight:600;color:var(--c-em)}
+:where(body.brand) .bxph{border-radius:var(--r-m) var(--r-m) 0 0}
+:where(body.brand) .pth{border-radius:var(--r-m) var(--r-m) 0 0;box-shadow:none}
+:where(body.brand) .pthr{color:var(--mut);border-bottom:1px solid var(--line)}
+:where(body.brand) .pthr:last-child{border:0}
+:where(body.brand) .pthr.on{color:var(--ink);font-weight:600}
+:where(body.brand) .dotn{border-radius:50%;background:var(--bg2);font-weight:700}
+:where(body.brand) .pthr.on .dotn{background:var(--tf);color:var(--ch)}
+:where(body.brand) .cal{background:var(--glass);border:1px solid var(--glass-b);border-bottom:0;border-radius:var(--r-m) var(--r-m) 0 0}
+:where(body.brand) .calg i{border-radius:var(--r-s);background:var(--glass)}
+:where(body.brand) .calg i.on{background:var(--tf)}
+:where(body.brand) .datet{border-radius:var(--r-m);background:var(--tf);color:var(--ch);box-shadow:var(--shadow)}
+:where(body.brand) .datet b{font-weight:700;letter-spacing:-.03em}
+:where(body.brand) .datet span{font-weight:700;letter-spacing:0;text-transform:none}
+:where(body.brand) .ck{border-radius:50%;background:var(--tint);color:var(--tfd)}
+:where(body.brand) .evban{background:var(--ch);color:var(--c-on-ink);border-radius:var(--r2);transition:transform var(--dur) var(--eo)}
+:where(body.brand) .evban:hover{transform:translateY(-2px)}
+:where(body.brand) .evban h3{letter-spacing:-.015em}
+:where(body.brand) .evbm .sm{color:var(--c-od2)}
+:where(body.brand) .pill.d2{background:var(--glass-b);color:var(--c-on-ink)}
+:where(body.brand) .gchip{background:var(--glass);border:1px solid var(--glass-b);color:var(--c-od2);border-radius:var(--r-s)}
+:where(body.brand) .gchip svg{color:var(--tq)}
+:where(body.brand) .evph{border-radius:var(--r-m)}
+:where(body.brand) .kban{background:var(--ch);color:var(--c-on-ink);border-radius:var(--r2)}
+:where(body.brand) .kban .kick{color:var(--tq)}
+:where(body.brand) .kban p{color:var(--on-dark)}
+:where(body.brand) .gl{background:var(--c-bg);border:0;-webkit-backdrop-filter:none;backdrop-filter:none;border-radius:var(--r-m);box-shadow:var(--shadow);color:var(--c-ink)}
+:where(body.brand) .gl b{letter-spacing:-.03em}
+:where(body.brand) .gl span{color:var(--c-t2)}
+:where(body.brand) .npill{background:var(--bg2);border-radius:var(--r-pill);color:var(--mut)}
+:where(body.brand) .npill b{color:var(--ink)}
+:where(body.brand) .bah{border-radius:var(--r-m)}
+:where(body.brand) .bah .fph{border-radius:0}
+:where(body.brand) .bah:after{background:var(--c-bg)}
+:where(body.brand) .bak{border-radius:50%;background:var(--c-bg);box-shadow:var(--shadow);font-weight:700;color:var(--ch);letter-spacing:0}
+:where(body.brand) .bal{border-radius:var(--r-pill);font-weight:600;background:var(--ch);color:var(--c-on-ink)}
+:where(body.brand) .bal.r{background:var(--tf);color:var(--ch)}
+:where(body.brand) .ba figcaption{color:var(--mut)}
+:where(body.brand) .ba figcaption b{color:var(--ink)}
+:where(body.brand) .rvv .fph{border-radius:0}
+:where(body.brand) .rvp{border-radius:50%;background:var(--c-bg);box-shadow:var(--shadow);color:var(--ch)}
+:where(body.brand) .rvb hr{border:0;border-top:1px solid var(--line)}
+:where(body.brand) .rvb h4{letter-spacing:-.015em}
+:where(body.brand) .howv{border-radius:var(--r2);background:var(--c-bg);box-shadow:none}
+:where(body.brand) .hwph{border-radius:var(--r-s)}
+:where(body.brand) .hstp h3{letter-spacing:-.015em}
+:where(body.brand) .harr{background:var(--line)}
+:where(body.brand) .harr:after{border-right:2px solid var(--mut2);border-bottom:2px solid var(--mut2)}
+:where(body.brand) .atcv{border-radius:var(--r-s);color:var(--c-ink)}
+:where(body.brand) .atcv .dur{background:var(--c-label);border-radius:var(--r-pill)}
+:where(body.brand) .h3faq details{background:var(--c-bg);border-radius:var(--r-m);box-shadow:none}
+:where(body.brand) .h3faq summary{font-weight:600;border-radius:var(--r-m)}
+:where(body.brand) .h3faq summary:focus-visible{outline:3px solid var(--c-tq)}
+:where(body.brand) .fqi{border-radius:50%;background:var(--bg2);transition:transform var(--dur) var(--eo),background var(--dur) var(--eo)}
+:where(body.brand) .salg{border-top:1px solid var(--line)}
+:where(body.brand) .salg>div{border-bottom:1px solid var(--line)}
+:where(body.brand) .salg>div:nth-child(even){border-left:1px solid var(--line)}
+:where(body.brand) .artb{background:var(--c-bg);border-radius:var(--r2);box-shadow:none}
+:where(body.brand) .arow{border-radius:var(--r-m);background:var(--bg2);color:var(--ink);transition:background var(--dur) var(--eo)}
+:where(body.brand) .arow:hover{background:var(--tint)}
+:where(body.brand) .arth{border-radius:var(--r-s)}
+:where(body.brand) footer .fsoc a{color:inherit}
+/* слой Б: шкала шрифта */
+body:where(.brand){font-size:var(--fs-body);line-height:1.55}
+:where(body.brand) h1{font-size:var(--fs-h1);line-height:1.02;letter-spacing:-.03em}
+:where(body.brand) h2{font-size:var(--fs-h3);line-height:1.2;letter-spacing:-.015em}
+:where(body.brand) h3{font-size:var(--fs-card);line-height:1.2;letter-spacing:-.015em}
+:where(body.brand) h4{font-size:var(--fs-body)}
+:where(body.brand) .sm{font-size:var(--fs-sm)}
+:where(body.brand) .xs{font-size:var(--fs-cap)}
+:where(body.brand) .kick{font-size:var(--fs-cap)}
+:where(body.brand) .btn{font-size:var(--fs-btn);line-height:1.2}
+:where(body.brand) .btn.s{font-size:var(--fs-btn-s)}
+:where(body.brand) .btn.xs{font-size:var(--fs-btn-s)}
+:where(body.brand) .lnk{font-size:var(--fs-sm)}
+:where(body.brand) .sec .lead{font-size:var(--fs-lead);line-height:1.55}
+:where(body.brand) .pill{font-size:var(--fs-cap)}
+:where(body.brand) .logo{font-size:var(--fs-body)}
+:where(body.brand) .nav a{font-size:var(--fs-sm)}
+:where(body.brand) .hero h1{font-size:var(--fs-h1);line-height:1.02;letter-spacing:-.03em}
+:where(body.brand) .hero p.lead{font-size:var(--fs-lead);line-height:1.55}
+:where(body.brand) .trust{font-size:var(--fs-sm)}
+:where(body.brand) .trust b{font-size:var(--fs-num);line-height:1;letter-spacing:-.03em}
+:where(body.brand) .cov .dur{font-size:var(--fs-cap)}
+:where(body.brand) .pc h3{font-size:var(--fs-body)}
+:where(body.brand) .price{font-size:var(--fs-body)}
+:where(body.brand) .subban h2{font-size:var(--fs-h2);line-height:1.05;letter-spacing:-.03em}
+:where(body.brand) .evrow .d b{font-size:var(--fs-h3);line-height:1;letter-spacing:-.03em}
+:where(body.brand) .evrow .d span{font-size:var(--fs-cap)}
+:where(body.brand) footer{font-size:var(--fs-sm)}
+:where(body.brand) .toast{font-size:var(--fs-sm)}
+:where(body.brand) .ava{font-size:var(--fs-sm)}
+:where(body.brand) .ava.sm{font-size:var(--fs-cap)}
+:where(body.brand) figcaption{font-size:var(--fs-sm);line-height:1.45}
+:where(body.brand) .evm h3{font-size:var(--fs-body)}
+:where(body.brand) .evm .pill{font-size:var(--fs-cap)}
+:where(body.brand) .hpromoin b{font-size:var(--fs-sm)}
+:where(body.brand) .hpromoin .lnk{font-size:var(--fs-sm)}
+:where(body.brand) .hb{font-size:var(--fs-h2);line-height:1.05;letter-spacing:-.03em}
+:where(body.brand) .btn.xl{font-size:var(--fs-btn)}
+:where(body.brand) .h3hero h1{font-size:var(--fs-h1);line-height:1.02;letter-spacing:-.03em}
+:where(body.brand) .fphl{font-size:var(--fs-cap);line-height:1.25}
+:where(body.brand) .wg{font-size:var(--fs-cap);line-height:1.35}
+:where(body.brand) .wg b{font-size:var(--fs-sm)}
+:where(body.brand) .hxw1 .kick{font-size:var(--fs-cap)}
+:where(body.brand) .bx h3{font-size:var(--fs-card);line-height:1.2;letter-spacing:-.015em}
+:where(body.brand) .bxl{font-size:var(--fs-sm)}
+:where(body.brand) .pthr{font-size:var(--fs-sm)}
+:where(body.brand) .dotn{font-size:var(--fs-cap)}
+:where(body.brand) .calh{font-size:var(--fs-sm)}
+:where(body.brand) .datet b{font-size:var(--fs-num-l);line-height:1;letter-spacing:-.03em}
+:where(body.brand) .datet span{font-size:var(--fs-cap)}
+:where(body.brand) .chk2 li{font-size:var(--fs-body)}
+:where(body.brand) .price.pbig{font-size:var(--fs-h3)}
+:where(body.brand) .evban h3{font-size:var(--fs-h3);line-height:1.15}
+:where(body.brand) .gchip{font-size:var(--fs-cap)}
+:where(body.brand) .kban p{font-size:var(--fs-lead);line-height:1.55}
+:where(body.brand) .gl b{font-size:var(--fs-num);line-height:1;letter-spacing:-.03em}
+:where(body.brand) .gl span{font-size:var(--fs-cap)}
+:where(body.brand) .npill{font-size:var(--fs-sm)}
+:where(body.brand) .npill b{font-size:var(--fs-lead)}
+:where(body.brand) .bak{font-size:var(--fs-sm)}
+:where(body.brand) .bal{font-size:var(--fs-cap)}
+:where(body.brand) .ba figcaption{font-size:var(--fs-sm)}
+:where(body.brand) .rvb h4{font-size:var(--fs-lead)}
+:where(body.brand) .hwph .fphl{font-size:var(--fs-cap)}
+:where(body.brand) .hstp .pill{font-size:var(--fs-cap)}
+:where(body.brand) .hstp h3{font-size:var(--fs-card);line-height:1.2;letter-spacing:-.015em}
+:where(body.brand) .atcv .dur{font-size:var(--fs-cap)}
+:where(body.brand) .atcb h4{font-size:var(--fs-sm);line-height:1.35}
+:where(body.brand) .faqp{font-size:var(--fs-body)}
+:where(body.brand) .h3faq summary{font-size:var(--fs-body)}
+:where(body.brand) .artp{font-size:var(--fs-body)}
+:where(body.brand) .tagr .pill{font-size:var(--fs-cap)}
+:where(body.brand) .arw b{font-size:var(--fs-sm);line-height:1.35}
+/* ручные: правила design.md, которых нет в исходных стилях */
+:where(body.brand) .card,:where(body.brand) .ico,:where(body.brand) .howv,:where(body.brand) .artb,:where(body.brand) .h3faq details{border:1px solid var(--c-line)}
+:where(body.brand) .pth{border:1px solid var(--c-line);border-bottom:0}
+:where(body.brand) [style*="gradient("]{background:var(--c-ph)!important}
+:where(body.brand) .btn{min-height:52px;padding:0 24px;line-height:1}
+:where(body.brand) .btn.s,:where(body.brand) .btn.xs{min-height:44px;padding:0 18px}
+:where(body.brand) .btn.xl{min-height:52px;padding:0 24px}
+:where(body.brand) .btn:active{transform:translateY(1px)}
+:where(body.brand) a:focus-visible,:where(body.brand) button:focus-visible,:where(body.brand) summary:focus-visible,:where(body.brand) .btn:focus-visible{outline:3px solid var(--c-tq);outline-offset:2px}
+:where(body.brand) .h3hero .kick{display:inline-flex;align-items:center;gap:10px;font-size:var(--fs-sm);font-weight:400;color:var(--c-t2)}
+:where(body.brand) .h3hero .kick:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c-tq);outline:4px solid var(--c-tq-tint);margin:0 4px;flex:none}
+:where(body.brand) .hdr .logo,:where(body.brand) footer .logo{flex-direction:column;align-items:flex-start;gap:3px;line-height:1.1}
+:where(body.brand) .hdr .logo{font-size:var(--fs-card);letter-spacing:-.03em}
+:where(body.brand) .hdr .logo:after,:where(body.brand) footer .logo:after{content:"школа Кати Туркеевой";font-size:var(--fs-cap);font-weight:400;letter-spacing:0;color:var(--c-t2)}
+
+}
+@media (min-width:1101px) and (prefers-reduced-motion:reduce){:where(body.brand) *{transition:none!important}:where(body.brand) .hov:hover,:where(body.brand) .bx:hover,:where(body.brand) .evban:hover,:where(body.brand) .btn:active{transform:none}}
+/* ═══ конец блока бренда ═══ */
+</style></head><body>
 <div class="demo"><b>ПРОТОТИП v2</b>данные тестовые · войти как:
 <button onclick="demo('club')">участник клуба</button><button onclick="demo('salon')">руководитель салона</button><button onclick="demo('master')">мастер-партнёр</button><button onclick="demo('ugc')">UGC-креатор</button><button onclick="demo('admin')">Катя (админ)</button><button onclick="demo('out')">выйти</button></div>
 <div id="app"></div>
@@ -675,7 +938,7 @@ return`<div class="hpromo"><div class="wrap"><div class="hpromoin"><span class="
 <section class="sec" style="padding-top:0"><div class="wrap"><div class="shead"><div><h2 class="hb">Работы <em>учениц</em></h2><p class="lead">До и после обучения — без фильтров</p></div><span class="npill"><b>★ 4.9</b>средняя оценка курсов · 640 отзывов</span></div><div class="ba2">${[["Марина К.","комби, 2 месяца обучения"],["Ольга С.","снятие и выравнивание"]].map(x=>`<figure class="ba"><div class="bah">${hph("Фото работ","","n")}${hph("Фото работ","","t")}<span class="bal l">до</span><span class="bal r">после</span><span class="bak">‹ ›</span></div><figcaption><b>${x[0]}</b> · ${x[1]}</figcaption></figure>`).join("")}</div><div class="revs">${rev.map(r=>`<div class="card rv"><div class="rvv">${hph("Видео-отзыв: "+r[0],"","t")}<span class="rvp">${ic("play",1)}</span></div><div class="rvb"><b>${r[0]}</b><span class="xs mut">${r[1]}</span><hr><h4>${r[3]}</h4><p class="sm mut">«${r[2]}»</p></div></div>`).join("")}</div></div></section>
 <section class="sec g"><div class="wrap"><div class="shc"><h2 class="hb">Как проходит <em>обучение</em></h2></div><div class="how"><div class="howv"><div class="wg hw1"><span class="kick">Разбор · Кутикула</span><b>Почему после маникюра болит палец</b><span class="xs mut">6 мин чтения · бесплатно</span></div><div class="wg hw2">${hph("Фото: отработка ученицы","hwph","n")}<span class="hwok"><span class="okc">${ic("check")}</span><span class="wgt"><b>Отработка принята</b><span class="xs mut">куратор · 2 часа назад</span></span></span></div><div class="wg hw3"><span class="okc">${ic("award")}</span><span class="wgt"><b>Сертификат</b><span class="xs mut">«Логика маникюра» · 2026</span></span></div></div><div class="howl">${steps.map((s,i)=>`<div class="hstp"><span class="pill d">${i+1} шаг</span><div><h3>${s[0]}</h3><p class="mut">${s[1]}</p></div></div>${i<2?'<i class="harr"></i>':""}`).join("")}</div></div><div class="ctac"><a class="btn xl" onclick="go('${ME}')">${MEt} ${ic("arrow")}</a></div></div></section>
 <section class="sec"><div class="wrap"><div class="shead"><div><h2 class="hb">Разберите <em>одну проблему</em> за 10 минут</h2><p class="lead">Мини-уроки по 99–199 ₽ — или все сразу в абонементе</p></div><a class="btn o s" onclick="S.ui.ct='Атомы';save();go('#/catalog')">Все 12 ${ic("arrow")}</a></div><div class="h3row">${["a1","a2","a3","a7","a5","a9"].filter(i=>P[i]).map(i=>{const p=P[i];return`<div class="card hov atc" onclick="go('#/p/${i}')"><div class="atcv" style="background:${cov(p.topic)}">${ic("play",1)}<span class="dur">${lessons(p)[0][2]}</span></div><div class="atcb"><span class="kick">${p.topic}</span><h4>${p.title}</h4><div class="foot"><span class="price">${p.price}</span><a class="btn xs" onclick="event.stopPropagation();buy('${i}')">Купить</a></div></div></div>`}).join("")}</div></div></section>
-<section class="sec"><div class="wrap"><div class="subban dark"><div><span class="kick" style="color:var(--tq)">Абонемент школы</span><h2 style="margin-top:10px">Все курсы пути мастера за одну оплату в месяц</h2><ul>${["Все курсы пути мастера, кроме потоков с куратором","4 новых урока на моделях каждый месяц","Все 12 атомов и новые по мере выхода","Эфиры и их записи","Отмена в один клик, без звонков"].map(x=>`<li>${ic("check")}${x}</li>`).join("")}</ul></div><div class="card" style="color:var(--ink);align-self:center"><span class="kick">Абонемент</span><div class="price" style="font-size:36px;margin:8px 0">X ₽<span class="mut" style="font-size:16px;font-weight:400"> / мес</span></div><p class="sm mut" style="margin-bottom:16px">Первые 7 дней бесплатно</p><a class="btn w xl" onclick="go('#/p/sub')">Попробовать 7 дней</a></div></div></div></section>
+<section class="sec"><div class="wrap"><div class="subban dark"><div><span class="kick" style="color:var(--tq)">Абонемент школы</span><h2 style="margin-top:10px">Все курсы пути мастера за одну оплату в месяц</h2><ul>${["Все курсы пути мастера, кроме потоков с куратором","4 новых урока на моделях каждый месяц","Все 12 атомов и новые по мере выхода","Эфиры и их записи","Отмена в один клик, без звонков"].map(x=>`<li>${ic("check")}${x}</li>`).join("")}</ul></div><div class="card" style="color:var(--ink);align-self:center"><span class="kick">Абонемент</span><div class="price" style="font-size:var(--fs-num-l);margin:8px 0">X ₽<span class="mut" style="font-size:var(--fs-sm);font-weight:400"> / мес</span></div><p class="sm mut" style="margin-bottom:16px">Первые 7 дней бесплатно</p><a class="btn w xl" onclick="go('#/p/sub')">Попробовать 7 дней</a></div></div></div></section>
 <section class="sec g"><div class="wrap faqw"><div><h2 class="hb">Частые <em>вопросы</em></h2><p class="mut faqp">Не нашли ответ — напишите Кате в Телеграм.</p><a class="btn o xl" href="https://t.me/katya_turkeeva" target="_blank" rel="noopener">${ic("chat")} Написать в Телеграм</a></div><div class="h3faq">${faq.map(q=>`<details><summary>${q[0]}<span class="fqi">${ic("plus")}</span></summary><p class="mut">${q[1]}</p></details>`).join("")}</div></div></section>
 <section class="sec"><div class="wrap"><div class="sal"><div><span class="kick">Для салонов и студий</span><h2 class="hb" style="margin:10px 0 12px">Обучайте мастеров и <em>видите, кто что прошёл</em></h2><p class="mut">Одна подписка на команду. У каждого мастера свой кабинет, у руководителя — прогресс всех и сданные отработки.</p><div class="salg">${[["Кабинет руководителя","прогресс каждого мастера"],["Отработки","фото работ на проверку"],["Замена мастеров","место переходит новому"],["Отчёты","по каждому мастеру"]].map(x=>`<div><b>${x[0]}</b><span class="sm mut">${x[1]}</span></div>`).join("")}</div><a class="btn o xl" onclick="go('#/salons')">Подробнее ${ic("arrow")}</a></div><div class="salv">${hph("Фото: команда салона на обучении","salph","t")}<div class="wg sw1"><b>Прогресс команды</b>${[["Аня",82],["Оля",64],["Вика",45]].map(m=>`<div class="swr"><span class="xs">${m[0]}</span>${bar(m[1],100)}<span class="xs mut">${m[1]}%</span></div>`).join("")}</div><div class="wg sw2"><span class="okc">${ic("check")}</span><span class="wgt"><b>Оля сдала отработку</b><span class="xs mut">«Боковые валики» · 5 мин назад</span></span></div></div></div></div></section>
 <section class="sec g"><div class="wrap"><div class="artb"><div><h2 class="hb">Бесплатные разборы <em>частых ошибок</em></h2><p class="mut artp">Статьи и видео Кати — читайте без регистрации</p><div class="tagr">${["Кутикула","Фрезы","Снятие","Покрытие","Форма"].map(t=>`<a class="pill d" onclick="go('#/articles')">${t}</a>`).join("")}</div><a class="btn o s" onclick="go('#/articles')">Все статьи ${ic("arrow")}</a></div><div class="h3list">${ARTS.slice(0,3).map(a=>`<a class="arow" onclick="go('#/a/${a[0]}')"><span class="arth" style="background:${cov(a[2])}"></span><span class="arw"><span class="kick">${a[2]}</span><b>${a[1]}</b></span>${ic("chev")}</a>`).join("")}</div></div></div></section>
@@ -1186,7 +1449,7 @@ else if(a=="learn")html=R.learn(b,c);
 else{const fn=a=="kb"&&b?R.kbitem:R[a]||R[""];html=site(a,fn(b,c))}
 const shell=a=="lk"||a=="salon"||a=="admin"||((a=="pro"||a=="ugc")&&(html.startsWith('<div class="app">')||html.startsWith('<div class="app u3">')))||(a=="learn"&&S.role&&P[b]&&has(b));
 if(!shell&&!html.startsWith("<header"))html=site(a,html);
-document.getElementById("app").innerHTML=html;
+document.body.classList.toggle("brand",!a);document.getElementById("app").innerHTML=html;
 const tb=document.getElementById("treebtn");if(tb&&innerWidth<=820)tb.style.display="inline-flex";
 document.querySelectorAll(".cst").forEach(csu);if(S.ui.gq&&document.getElementById("gl"))blogFilter(S.ui.gq);
 if(CUR!==window._lastR){window._lastR=CUR;window.scrollTo(0,0)}}
@@ -1641,7 +1904,7 @@ RAIL.admin.push(["admin/bi","Аналитика","chart"]);
 const AGR=[["Сегодня",["admin","admin/bi","admin/works","admin/moder"]],["Люди",["admin/users","admin/masters","admin/team"]],["Продукт",["admin/content","admin/articles","admin/reviews"]],["Деньги",["admin/sales","admin/payouts","admin/shop"]],["Маркетинг",["admin/mail","admin/points"]]];
 (()=>{const by=Object.fromEntries(RAIL.admin.map(i=>[i[0],i]));by.admin[2]="home";by["admin/masters"][1]="Мастера-партнёры";const ord=AGR.flatMap(g=>g[1]).map(r=>by[r]).filter(Boolean);RAIL.admin.length=0;RAIL.admin.push(...ord)})();
 PROUTE["admin/bi"]="dash";
-const _cab8=cab;cab=function(k,b){let h=_cab8(k,b);if(S.role!="admin"||/^(pro|ugc)/.test(k))return h;h=h.replace('<aside class="rail">','<aside class="rail adm">');if(k=="admin")h=h.replace('<div class="ctop">','<div class="ctop">'+bperiod([[7,"Неделя"],[30,"Месяц"],[90,"Квартал"]]).replace('class="seg"','class="seg ctseg"'));
+const _cab8=cab;cab=function(k,b){let h=_cab8(k,b);if(S.role!="admin"||/^(pro|ugc)/.test(k))return h;h=h.replace('<aside class="rail">','<aside class="rail adm">');if(k=="admin/bi")h=h.replace('<div class="ctop">','<div class="ctop">'+biFlt());if(k=="admin")h=h.replace('<div class="ctop">','<div class="ctop">'+bperiod([[7,"Неделя"],[30,"Месяц"],[90,"Квартал"]]).replace('class="seg"','class="seg ctseg"'));
 AGR.forEach(g=>{for(const r of g[1]){const re=new RegExp(`<a class="[^"]*" onclick="go\\('#/${r.replace("/","\\/")}'\\)">`);const m=h.match(re);if(m){h=h.replace(m[0],`<div class="grp">${g[0]}</div>`+m[0]);break}}});return h};
 
 /* ---------- данные: один генератор на сводку и BI, чтобы цифры сходились ---------- */
@@ -1817,10 +2080,10 @@ if(t=="prt"){return`<div class="bitls">${biTile("Мастеров-партнёр
 <div class="bigr2">${biTbl("prt",["Мастер","Продаж","Возвраты","Рейтинг","Ответ ученикам"],[["Алина Р.",bf(sc(38)),"1","★ 4,8","3 ч"],["Вика Л.",bf(sc(21)),"0","★ 4,7","9 ч"],["Соня Н.",bf(sc(14)),"1","★ 4,8",'<span class="warnt">26 ч</span>']],"Мастера-партнёры","возвраты и время ответа влияют на место в каталоге")}${biCard("prtc","Продажи партнёров","штук",{t:"stack",x:D.x,s:[{n:"Мастера-партнёры",c:"#d69a8c",v:D.L.prt}]})}</div>
 <div class="bigr2">${biTbl("sal",["Салон","Места","Учатся активно","Средний прогресс","Работ сдано"],[["Салон «Ноготок»","7 из 10","5","48%","2 из 7"],["Студия «Лак»","5 из 5","5","63%","6 из 5"]],"Салоны","корпоративная подписка")}${biTbl("ugc",["Креатор","Переходов","Продаж","Заданий сдано"],[["Лиза К.",bf(sc(640)),bf(sc(37)),"4"],["Кира Д.",bf(sc(230)),bf(sc(12)),"2"]],"UGC-креаторы","")}</div>
 <p class="sm"><a class="lnk" onclick="go('#/admin/turnover')">Оборот и комиссии по разделам ${ic("chev")}</a></p>`}}
+const biFlt=()=>{const D=biD();return`<div class="ctflt">${bperiod([[7,"7 дней"],[30,"30 дней"],[90,"90 дней"],[365,"Год"]])}<label class="bisel"><select onchange="S.ui.bd=this.value;save();render()"><option value="all">Все направления</option>${BIL.map(l=>`<option value="${l[0]}" ${D.dir==l[0]?"selected":""}>${l[1]}</option>`).join("")}</select></label><label class="bisel"><select onchange="S.ui.bs=this.value;save();render()"><option value="all">Все источники</option>${BISRC.map(s=>`<option value="${s[0]}" ${D.src==s[0]?"selected":""}>${s[1]}</option>`).join("")}</select></label><label class="bick"><input type="checkbox" ${S.ui.bc!==0?"checked":""} onchange="S.ui.bc=this.checked?1:0;save();render()"> С прошлым периодом</label>${D.dir!="all"||D.src!="all"?`<a class="lnk sm" onclick="S.ui.bd='all';S.ui.bs='all';save();render()">Сбросить</a>`:""}</div>`};
 R["admin/bi"]=()=>{BIC={};BIGEO={};const D=biD(),t=S.ui.bt||"ov";
 return AD("admin/bi",`<div class="ph"><div><h1>Аналитика</h1><p class="mut">Данные со всей платформы: оплаты, уроки, работы, эфиры, магазин, партнёры, салоны</p></div><div class="cta"><label class="bick"><input type="checkbox" ${S.ui.brep?"checked":""} onchange="S.ui.brep=this.checked;save();toast(this.checked?'Отчёт будет приходить в Телеграм по понедельникам в 9:00':'Еженедельный отчёт выключен')"> Отчёт в Телеграм по понедельникам</label></div></div>
 <nav class="bitabs">${BITABS.map(x=>`<button class="${t==x[0]?"on":""}" onclick="ui('bt','${x[0]}')">${x[1]}</button>`).join("")}</nav>
-<div class="bifl">${bperiod([[7,"7 дней"],[30,"30 дней"],[90,"90 дней"],[365,"Год"]])}<label class="bisel"><span>Направление</span><select onchange="S.ui.bd=this.value;save();render()"><option value="all">Все</option>${BIL.map(l=>`<option value="${l[0]}" ${D.dir==l[0]?"selected":""}>${l[1]}</option>`).join("")}</select></label><label class="bisel"><span>Источник</span><select onchange="S.ui.bs=this.value;save();render()"><option value="all">Все</option>${BISRC.map(s=>`<option value="${s[0]}" ${D.src==s[0]?"selected":""}>${s[1]}</option>`).join("")}</select></label><label class="bick"><input type="checkbox" ${S.ui.bc!==0?"checked":""} onchange="S.ui.bc=this.checked?1:0;save();render()"> Сравнить с прошлым периодом</label>${D.dir!="all"||D.src!="all"?`<a class="lnk sm" onclick="S.ui.bd='all';S.ui.bs='all';save();render()">Сбросить</a>`:""}<span style="flex:1"></span><span class="xs mut">обновлено 5 мин назад</span></div>
 <div class="bibody">${biTab(t,D)}</div>
 <div class="card bisrcs"><h4>Откуда данные</h4><div>${BISRCS.map(s=>`<span><span class="obi">${ic(s[0])}</span><span><b>${s[1]}</b><small>${s[2]}</small></span></span>`).join("")}</div></div>`)};
 
